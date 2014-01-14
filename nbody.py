@@ -52,7 +52,9 @@ class Simulation(object):
 
         scene = display(title="N-Body Simulation")
         stars = materials.loadTGA("stars.tga")
+        moon = materials.loadTGA("moon.tga")
         st_texture = materials.texture(data=stars, mapping='spherical')
+        moon_texture = materials.texture(data=moon, mapping='spherical')
 
         body1 = self.bodies[0]
         body2 = self.bodies[1]
@@ -61,7 +63,7 @@ class Simulation(object):
         sphere1 = sphere(pos=body1.position, radius=body1.radius,
                          make_trail=True, material=materials.BlueMarble)
         sphere2 = sphere(pos=body2.position, radius=body2.radius,
-                         make_trail=True, material=materials.emissive)
+                         make_trail=True, material=moon_texture)
         sphere3 = sphere(pos=body3.position, radius=100000, color=color.green,
                          make_trail=True)
 
