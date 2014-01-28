@@ -34,10 +34,13 @@ class Simulation(object):
     def __init__(self):
         self.bodies = []
         self.G = 6.67384e-11
+        self.dt = 1
+        self.t = 0
 
     def create_body(self, name, mass, radius, position, v_initial):
         self.bodies.append(Body(name, mass, radius, position, v_initial))
 
+    #change this to include the acceleration (F=ma)
     def newtonian(self, primary, other):
 
         r = other.position - primary.position
@@ -46,8 +49,13 @@ class Simulation(object):
 
         return F
 
+    def integrate(self):
+        #Perform integrations here
+        pass
+
     def start(self):
 
+        #Hardcoded garbage, fix this ---------
         rotation = 7.2921150e-5
 
         scene = display(title="N-Body Simulation")
@@ -61,12 +69,15 @@ class Simulation(object):
         body3 = self.bodies[2]
         skybox = sphere(pos=(0, 0, 0), radius=600000000, material=st_texture)
         sphere1 = sphere(pos=body1.position, radius=body1.radius,
-                         make_trail=True, material=materials.BlueMarble)
+                         make_trail=True, retain=1000000, material=materials.BlueMarble)
         sphere2 = sphere(pos=body2.position, radius=body2.radius,
-                         make_trail=True, material=moon_texture)
+                         make_trail=True, retain=1000000, material=moon_texture)
         sphere3 = sphere(pos=body3.position, radius=100000, color=color.green,
-                         make_trail=True)
+                         make_trail=True, retain=100)
 
+        #---------------------------------------
+
+        #main loop
         while 1:
             rate(500)
             for b in self.bodies:
@@ -82,6 +93,7 @@ class Simulation(object):
                 b.position += b.velocity
                 b.clear_force()
 
+            #more hardcoded garbage
             sphere1.pos = body1.position
             sphere1.rotate(angle=rotation, axis=(0, 1, 0), origin=sphere1.pos)
             sphere2.pos = body2.position
